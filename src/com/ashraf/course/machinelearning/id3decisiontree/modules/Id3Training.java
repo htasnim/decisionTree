@@ -21,12 +21,26 @@ import org.apache.log4j.Logger;
 
 /**
  *
+ * Id3Training represents the training module of this project. This module is
+ * called each time we need to build aa decision tree based on some training
+ * data
+ *
  * @author Ashraf
+ * @version 1.0.0, 09 Sept 2018
  */
 public class Id3Training {
 
     final static Logger logger = Logger.getLogger(Id3Training.class);
 
+    /**
+     * buildTree method needs to be called each time we need to create a tree
+     * using some training data. This method reads a csv file to read training
+     * entries then uses createNode function to create the decision tree.
+     *
+     *
+     * @return root node of the decision tree
+     * @since version 1.0.0
+     */
     public TreeNode buildTree() {
         Set<Integer> breakingPosList = new HashSet<Integer>();
         List<Entry> entryList = new ArrayList<Entry>();
@@ -54,6 +68,23 @@ public class Id3Training {
         return root;
     }
 
+    /**
+     * createTree is a recursive function which is used by buildTree function
+     * and it is used to create the decision tree. From each call of createTree
+     * function we get one tree node which are linked togather in the tree. To
+     * create the tree using the training data createTree uses some statistical
+     * analysis (i.e. information gain). The Methods to those statistical
+     * analysis can be found in statsUti class.
+     *
+     * @param currEntryList a set of data entries which will be used to create
+     * current node and it's children of the tree.
+     * @param breakingPosList list of attributes where a decision have already
+     * been made
+     * @param nBase nitrogen base which is used to create surrent subset to
+     * entries.
+     * @return current node of the tree with it's children
+     * @since version 1.0.0
+     */
     private TreeNode createNode(List<Entry> currEntryList, Set<Integer> breakingPosList, NitrogenBase nBase) {
         if (currEntryList == null || currEntryList.size() < 1) {
             return null;
@@ -70,7 +101,7 @@ public class Id3Training {
         }
 
         // Otherwise, this is not a leaf node. This node will have children
-        // Calculate information gain.
+        // Calculate information gain for each unused attribute:
         Double maxIG = Double.MIN_VALUE;
         Integer maxIgPos = -1;
         List<Entry> finalEntryListA = new ArrayList<Entry>();
@@ -87,6 +118,7 @@ public class Id3Training {
             List<Entry> currEntryListG = new ArrayList<Entry>();
             List<Entry> currEntryListT = new ArrayList<Entry>();
 
+            // Create 4 subset for 4 different features of an attribute
             for (Entry currEntry : currEntryList) {
                 if (currEntry.getSequence().charAt(i) == 'A') {
                     currEntryListA.add(currEntry);
@@ -99,6 +131,7 @@ public class Id3Training {
                 }
             }
 
+            // Get information gain
             Double informationGain = StatsUtil.calculateInformationGain(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
             if (informationGain >= maxIG) {
                 maxIG = informationGain;
@@ -128,6 +161,14 @@ public class Id3Training {
         return node;
     }
 
+    /**
+     * isSameCategory function is used by createTree function to check if all
+     * the entries of a list are of same class or not
+     *
+     * @param entryList a set of data entries
+     * @return true if all the data entries are of same class, false otherwise
+     * @since version 1.0.0
+     */
     private Boolean isSameCategory(List<Entry> entryList) {
         if (entryList.size() < 2) {
             return Boolean.TRUE;
