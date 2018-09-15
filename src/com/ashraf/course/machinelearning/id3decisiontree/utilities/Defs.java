@@ -36,11 +36,24 @@ public class Defs {
         A, G, C, T, INVALID, UNKNOWN
     }
 
+    // Set of statistical analysis to split the tree
+    public static enum MethodOfSplittingAttribute {
+        INFORMATION_GAIN, GINI_INDEX
+    }
+
     // Different modes for program cimpilation
     public static enum RunningModes {
         DEBUG, RELEASE
     }
 
+    // Current ststistical analysis mode
+    public static final MethodOfSplittingAttribute currSplittingMethod = MethodOfSplittingAttribute.INFORMATION_GAIN;
+
     // Current compilation mode
     public static final RunningModes currentRunningMode = RunningModes.RELEASE;
+
+    // Critical values for Chi square testing. Uncomment any one of three
+    public static final Double CTITICAL_VALUE = 16.81; // For ALPHA = 0.01
+//    public static final Double CTITICAL_VALUE = 12.59; // For ALPHA = 0.05
+//    public static final Double CTITICAL_VALUE = 0.872; // For ALPHA = 0.99
 }

@@ -17,12 +17,27 @@ import org.apache.log4j.Logger;
 
 /**
  *
+ * Id3Testing classs represents the testing module of this project. This module
+ * is called each time we need to run test on a given set of data
+ *
  * @author Ashraf
+ * @version 1.0.0, 09 Sept 2018
  */
 public class Id3Testing {
 
     final static Logger logger = Logger.getLogger(Id3Testing.class);
 
+    /**
+     * getTestResults is public function which is called each time we need to
+     * runs tests on testing data. A decision tree must be given as a parameter
+     * to run the tests. This function reads testing data based on a csv
+     * filename define in Defs class. For each data entry, this method analyze
+     * the decision tree and puts each entry in either of EI, IE, N class.
+     *
+     *
+     * @return root node of the decision tree
+     * @since version 1.0.0
+     */
     public List<Entry> getTestResults(TreeNode root) {
         List<Entry> testEntryList = new ArrayList<Entry>();
 
@@ -47,10 +62,17 @@ public class Id3Testing {
         for (Entry currEntry : testEntryList) {
             returnEntryList.add(getEntryCategory(currEntry, root));
         }
+
+        // If the resulting class is unknown, we assume that the DNA sequence does not contain any exxon or intron marker. Therefore it falls into N class
+        for (Entry currEntry : returnEntryList) {
+            if (currEntry.getCategory() == Defs.Category.UNKNOWN) {
+                currEntry.setCategory(Defs.Category.N);
+            }
+        }
         long endTime = System.nanoTime();
         logger.info("End: run ID3 decition tree on test data...");
         logger.info("Testing time: " + (endTime - startTime) / 1000000 + " miliseconds.");
-        
+
         return returnEntryList;
     }
 
@@ -68,7 +90,6 @@ public class Id3Testing {
             return entry;
         }
 
-        // System.out.println("Breaking pos: " + node.getBreakingPos());
         Character nextFeature = entry.getSequence().charAt(node.getBreakingPos());
         Defs.NitrogenBase nBase;
 

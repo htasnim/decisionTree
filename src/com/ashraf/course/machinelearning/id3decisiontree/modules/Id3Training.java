@@ -22,8 +22,7 @@ import org.apache.log4j.Logger;
 /**
  *
  * Id3Training represents the training module of this project. This module is
- * called each time we need to build aa decision tree based on some training
- * data
+ * called each time we need to build a decision tree based on some training data
  *
  * @author Ashraf
  * @version 1.0.0, 09 Sept 2018
@@ -58,6 +57,7 @@ public class Id3Training {
         }
 
         logger.info("Total size of training data: " + entryList.size());
+        logger.info("Selected evaluation criteria: " + Defs.currSplittingMethod);
 
         logger.info("Start: create Decision Tree...");
         long startTime = System.nanoTime();
@@ -73,8 +73,8 @@ public class Id3Training {
      * and it is used to create the decision tree. From each call of createTree
      * function we get one tree node which are linked togather in the tree. To
      * create the tree using the training data createTree uses some statistical
-     * analysis (i.e. information gain). The Methods to those statistical
-     * analysis can be found in statsUti class.
+     * analysis (i.e. information gain, gini index). The Methods to those
+     * statistical analysis can be found in statsUti class.
      *
      * @param currEntryList a set of data entries which will be used to create
      * current node and it's children of the tree.
@@ -103,7 +103,8 @@ public class Id3Training {
         // Otherwise, this is not a leaf node. This node will have children
         // Calculate information gain for each unused attribute:
         Double maxIG = Double.MIN_VALUE;
-        Integer maxIgPos = -1;
+        double maxGI = Double.MIN_VALUE;
+        Integer breakingAttributePos = -1;
         List<Entry> finalEntryListA = new ArrayList<Entry>();
         List<Entry> finalEntryListC = new ArrayList<Entry>();
         List<Entry> finalEntryListG = new ArrayList<Entry>();
@@ -131,20 +132,32 @@ public class Id3Training {
                 }
             }
 
-            // Get information gain
-            Double informationGain = StatsUtil.calculateInformationGain(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
-            if (informationGain >= maxIG) {
-                maxIG = informationGain;
-                maxIgPos = i;
-                finalEntryListA = new ArrayList<Entry>(currEntryListA);
-                finalEntryListC = new ArrayList<Entry>(currEntryListC);
-                finalEntryListG = new ArrayList<Entry>(currEntryListG);
-                finalEntryListT = new ArrayList<Entry>(currEntryListT);
+            if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.INFORMATION_GAIN) {
+                // Get information gain
+                Double informationGain = StatsUtil.calculateInformationGain(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
+                if (informationGain >= maxIG) {
+                    maxIG = informationGain;
+                    breakingAttributePos = i;
+                    finalEntryListA = new ArrayList<Entry>(currEntryListA);
+                    finalEntryListC = new ArrayList<Entry>(currEntryListC);
+                    finalEntryListG = new ArrayList<Entry>(currEntryListG);
+                    finalEntryListT = new ArrayList<Entry>(currEntryListT);
+                }
+            } else if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.GINI_INDEX) {
+                Double giniIndex = StatsUtil.calculateGiniIndex(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
+                if (giniIndex >= maxGI) {
+                    maxGI = giniIndex;
+                    breakingAttributePos = i;
+                    finalEntryListA = new ArrayList<Entry>(currEntryListA);
+                    finalEntryListC = new ArrayList<Entry>(currEntryListC);
+                    finalEntryListG = new ArrayList<Entry>(currEntryListG);
+                    finalEntryListT = new ArrayList<Entry>(currEntryListT);
+                }
             }
         }
 
         // Create children
-        breakingPosList.add(maxIgPos);
+        breakingPosList.add(breakingAttributePos);
         TreeNode childA = createNode(finalEntryListA, breakingPosList, NitrogenBase.A);
         TreeNode childC = createNode(finalEntryListC, breakingPosList, NitrogenBase.C);
         TreeNode childG = createNode(finalEntryListG, breakingPosList, NitrogenBase.G);
@@ -154,10 +167,10 @@ public class Id3Training {
         node.getChildren().add(childC);
         node.getChildren().add(childG);
         node.getChildren().add(childT);
-        node.setBreakingPos(maxIgPos);
+        node.setBreakingPos(breakingAttributePos);
         node.setnBase(nBase);
 
-        breakingPosList.remove(new Integer(maxIgPos));
+        breakingPosList.remove(new Integer(breakingAttributePos));
         return node;
     }
 
