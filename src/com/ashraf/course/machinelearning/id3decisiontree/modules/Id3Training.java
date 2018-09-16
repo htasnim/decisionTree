@@ -226,7 +226,7 @@ public class Id3Training {
                     break;
             }
         }
-        if (eiCount >= ieCount && eiCount > nCount) {
+        if (eiCount >= ieCount && eiCount >= nCount) {
             return Defs.Category.EI;
         } else if (ieCount >= eiCount && eiCount >= nCount) {
             return Defs.Category.IE;
