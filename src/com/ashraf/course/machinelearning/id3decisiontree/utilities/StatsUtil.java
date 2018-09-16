@@ -6,6 +6,7 @@
 package com.ashraf.course.machinelearning.id3decisiontree.utilities;
 
 import com.ashraf.course.machinelearning.id3decisiontree.dataStructures.Entry;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,47 @@ import java.util.List;
  */
 public class StatsUtil {
 
-    public static Double calculateChiSquare() {
-        return Math.random();
+    public static Double calculateChiSquare(List<Entry> entryList, List<Entry> aEntryList, List<Entry> cEntryList, List<Entry> gEntryList, List<Entry> tEntryList) {
+
+        Integer observed_EI_A = getSubSetOfEntry(aEntryList, Defs.Category.EI).size();
+        Integer observed_EI_C = getSubSetOfEntry(cEntryList, Defs.Category.EI).size();
+        Integer observed_EI_G = getSubSetOfEntry(gEntryList, Defs.Category.EI).size();
+        Integer observed_EI_T = getSubSetOfEntry(tEntryList, Defs.Category.EI).size();
+
+        Integer observed_IE_A = getSubSetOfEntry(aEntryList, Defs.Category.IE).size();
+        Integer observed_IE_C = getSubSetOfEntry(cEntryList, Defs.Category.IE).size();
+        Integer observed_IE_G = getSubSetOfEntry(gEntryList, Defs.Category.IE).size();
+        Integer observed_IE_T = getSubSetOfEntry(tEntryList, Defs.Category.IE).size();
+
+        Integer observed_N_A = getSubSetOfEntry(aEntryList, Defs.Category.N).size();
+        Integer observed_N_C = getSubSetOfEntry(cEntryList, Defs.Category.N).size();
+        Integer observed_N_G = getSubSetOfEntry(gEntryList, Defs.Category.N).size();
+        Integer observed_N_T = getSubSetOfEntry(tEntryList, Defs.Category.N).size();
+
+        Integer P = aEntryList.size();
+        Integer Q = cEntryList.size();
+        Integer R = gEntryList.size();
+        Integer S = tEntryList.size();
+
+        Integer A = getSubSetOfEntry(entryList, Defs.Category.EI).size();
+        Integer B = getSubSetOfEntry(entryList, Defs.Category.IE).size();
+        Integer C = getSubSetOfEntry(entryList, Defs.Category.N).size();
+        Integer TOTAL = entryList.size();
+
+        Double chaiSq = calculateExpectedProb(observed_EI_A, A, P, TOTAL)
+                + calculateExpectedProb(observed_EI_C, A, Q, TOTAL)
+                + calculateExpectedProb(observed_EI_G, A, R, TOTAL)
+                + calculateExpectedProb(observed_EI_T, A, S, TOTAL)
+                + calculateExpectedProb(observed_IE_A, B, P, TOTAL)
+                + calculateExpectedProb(observed_IE_C, B, Q, TOTAL)
+                + calculateExpectedProb(observed_IE_G, B, R, TOTAL)
+                + calculateExpectedProb(observed_IE_T, B, S, TOTAL)
+                + calculateExpectedProb(observed_N_A, C, P, TOTAL)
+                + calculateExpectedProb(observed_N_C, C, Q, TOTAL)
+                + calculateExpectedProb(observed_N_G, C, R, TOTAL)
+                + calculateExpectedProb(observed_N_T, C, S, TOTAL);
+
+        return chaiSq;
     }
 
     public static Double calculateGiniIndex(List<Entry> entryList, List<Entry> aEntryList, List<Entry> cEntryList, List<Entry> gEntryList, List<Entry> tEntryList) {
@@ -145,5 +185,20 @@ public class StatsUtil {
         } else {
             return Math.pow((double) nCount / (double) dataSize, 2.0);
         }
+    }
+
+    private static List<Entry> getSubSetOfEntry(List<Entry> entryList, Defs.Category category) {
+        List<Entry> returnEntryList = new ArrayList<Entry>();
+        for (Entry currEntry : entryList) {
+            if (currEntry.getCategory() == category) {
+                returnEntryList.add(currEntry);
+            }
+        }
+        return returnEntryList;
+    }
+
+    private static Double calculateExpectedProb(Integer observedVal, Integer rowSum, Integer colSum, Integer total) {
+        Double expectedVal = (rowSum.doubleValue() * colSum.doubleValue()) / total.doubleValue();
+        return Math.pow((observedVal.doubleValue() - expectedVal), 2.0) / expectedVal;
     }
 }

@@ -5,6 +5,9 @@
  */
 package com.ashraf.course.machinelearning.id3decisiontree.utilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Defs class contains all the constants, enums, and project mode values that we
  * will use throughout the project
@@ -52,8 +55,11 @@ public class Defs {
     // Current compilation mode
     public static final RunningModes currentRunningMode = RunningModes.RELEASE;
 
+    // Check if chai square test is required
+    public static Boolean USE_CHAI_SQUARE = Boolean.TRUE;
+
     // Critical values for Chi square testing. Uncomment any one of three
-    public static final Double CTITICAL_VALUE = 16.81; // For ALPHA = 0.01
-//    public static final Double CTITICAL_VALUE = 12.59; // For ALPHA = 0.05
-//    public static final Double CTITICAL_VALUE = 0.872; // For ALPHA = 0.99
+//    public static final Double CRITICAL_VALUE = 16.81; // For ALPHA = 0.01
+//    public static final Double CRITICAL_VALUE = 12.59; // For ALPHA = 0.05
+    public static final Double CRITICAL_VALUE = 0.872; // For ALPHA = 0.99
 }

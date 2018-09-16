@@ -60,6 +60,8 @@ public class Id3Training {
         logger.info("Selected evaluation criteria: " + Defs.currSplittingMethod);
 
         logger.info("Start: create Decision Tree...");
+        logger.info("Using Chai sqaure test...");
+        logger.info("Critical value: " + Defs.CRITICAL_VALUE);
         long startTime = System.nanoTime();
         TreeNode root = createNode(entryList, breakingPosList, NitrogenBase.UNKNOWN);
         long endTime = System.nanoTime();
@@ -156,6 +158,17 @@ public class Id3Training {
             }
         }
 
+        // Run chai-square test
+        if (Defs.USE_CHAI_SQUARE == Boolean.TRUE) {
+            Double chaiSquareVal = StatsUtil.calculateChiSquare(currEntryList, finalEntryListA, finalEntryListC, finalEntryListG, finalEntryListT);
+            if (Double.isNaN(chaiSquareVal) != Boolean.TRUE && chaiSquareVal < Defs.CRITICAL_VALUE) {
+                node.setLeafNode(Boolean.TRUE);
+                node.setCategory(getMaxOccuredCategory(currEntryList));
+                node.setnBase(nBase);
+                return node;
+            }
+        }
+
         // Create children
         breakingPosList.add(breakingAttributePos);
         TreeNode childA = createNode(finalEntryListA, breakingPosList, NitrogenBase.A);
@@ -193,5 +206,31 @@ public class Id3Training {
             }
         }
         return Boolean.TRUE;
+    }
+
+    private Defs.Category getMaxOccuredCategory(List<Entry> entryList) {
+        Integer eiCount, ieCount, nCount;
+        eiCount = ieCount = nCount = 0;
+        for (Entry currEntry : entryList) {
+            switch (currEntry.getCategory()) {
+                case EI:
+                    eiCount++;
+                    break;
+                case IE:
+                    ieCount++;
+                    break;
+                case N:
+                    nCount++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (eiCount >= ieCount && eiCount > nCount) {
+            return Defs.Category.EI;
+        } else if (ieCount >= eiCount && eiCount >= nCount) {
+            return Defs.Category.IE;
+        }
+        return Defs.Category.N;
     }
 }

@@ -27,10 +27,12 @@ public class ID3DecisionTree {
     /**
      * @param args the command line arguments
      */
+
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
         logger.info("Running ID3 Decision Tree...");
+
         // Build decision tree
         Id3Training id3Training = new Id3Training();
         TreeNode decisionTreeRoot = id3Training.buildTree();
