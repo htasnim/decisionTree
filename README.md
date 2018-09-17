@@ -1,4 +1,4 @@
-# decisionTree
+# ID3 Decision Tree
 
 Machine Learning project 1
 
