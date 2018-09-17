@@ -1,6 +1,4 @@
-# ID3 Decision Tree
-
-Machine Learning project 1
+# Machine Learning project 1: ID3 Decision Tree
 
 File description:
 The files and folder(s) in this directory are:
