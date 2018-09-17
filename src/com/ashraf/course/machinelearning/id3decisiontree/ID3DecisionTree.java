@@ -18,18 +18,40 @@ import org.apache.log4j.Logger;
 
 /**
  *
+ * ID3DecisionTree class is the entry point of the project. The purpose this
+ * this class is to initialize the project and integrate training and testing
+ * modules.
+ *
  * @author Ashraf
+ * @version 1.0.0, 09 Sept 2018
  */
 public class ID3DecisionTree {
 
     final static Logger logger = Logger.getLogger(ID3DecisionTree.class);
 
+    // Initialize with command line params
+    private static void init(String[] args) {
+        if (args.length < 1) {
+            return;
+        }
+        Integer igParam = Integer.parseInt(args[0]);
+        Double criticalValParam = Double.parseDouble(args[1]);
+        if (igParam.intValue() == 0) {
+            Defs.currSplittingMethod = Defs.MethodOfSplittingAttribute.INFORMATION_GAIN;
+        }
+
+        Defs.CRITICAL_VALUE = criticalValParam;
+    }
+
     /**
+     * main method is the entry point of this project
+     *
      * @param args the command line arguments
      */
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // TODO code application logic here
+
+        init(args);
 
         logger.info("Running ID3 Decision Tree...");
 

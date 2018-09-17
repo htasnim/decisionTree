@@ -17,8 +17,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * CsvUtils class contains all the utility methods we need to work on the csv
@@ -116,6 +114,14 @@ public class CsvUtils {
         }
     }
 
+    /**
+     * The method filterInvalidEntries is used to filter out all the invalid
+     * inputs we read from the csv file.
+     *
+     * @param entryList unfiltered list of data entry
+     * @return filtered list of data entry
+     * @since version 1.0.0
+     */
     public static List<Entry> filterInvalidEntries(List<Entry> entryList) {
         List<Entry> filteredEntryList = new ArrayList<Entry>();
         for (Entry entry : entryList) {
@@ -136,14 +142,5 @@ public class CsvUtils {
             }
         }
         return filteredEntryList;
-    }
-
-    public static void main(String args[]) {
-        try {
-            List<Entry> entryList = getEntryListFromTrainingFile("training.csv");
-        } catch (IOException ex) {
-            Logger.getLogger(CsvUtils.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 }

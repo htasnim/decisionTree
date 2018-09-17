@@ -50,7 +50,7 @@ public class Defs {
     }
 
     // Current ststistical analysis mode
-    public static final MethodOfSplittingAttribute currSplittingMethod = MethodOfSplittingAttribute.INFORMATION_GAIN;
+    public static MethodOfSplittingAttribute currSplittingMethod = MethodOfSplittingAttribute.GINI_INDEX;
 
     // Current compilation mode
     public static final RunningModes currentRunningMode = RunningModes.RELEASE;
@@ -59,7 +59,7 @@ public class Defs {
     public static Boolean USE_CHAI_SQUARE = Boolean.TRUE;
 
     // Critical values for Chi square testing. Uncomment any one of three
-//    public static final Double CRITICAL_VALUE = 16.81; // For ALPHA = 0.01
+    public static Double CRITICAL_VALUE = 16.81; // For ALPHA = 0.01
 //    public static final Double CRITICAL_VALUE = 12.59; // For ALPHA = 0.05
-    public static final Double CRITICAL_VALUE = 0.872; // For ALPHA = 0.99
+//    public static final Double CRITICAL_VALUE = 0.872; // For ALPHA = 0.99
 }

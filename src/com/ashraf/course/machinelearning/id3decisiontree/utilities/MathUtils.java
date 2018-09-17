@@ -6,15 +6,21 @@
 package com.ashraf.course.machinelearning.id3decisiontree.utilities;
 
 /**
- * Java class mathUtil
- * The class contains small mathematical methods (i.e. log base 2 calculation) which we will need   
- * to calculate the statistical analysis
+ * Java class mathUtil The class contains small mathematical methods (i.e. log
+ * base 2 calculation) which we will need to calculate the statistical analysis
  *
  * @author Ashraf
  * @version 1.0.0, 09 Sept 2018
  */
 public class MathUtils {
 
+    /**
+     * This function is used to calculate base 2 log of a real number
+     *
+     * @param x given reat number
+     * @return log base 2 of the given real number
+     * @since version 1.0.0
+     */
     public static Double log2(Double x) {
         if (x <= 0.0) {
             return 0.0;

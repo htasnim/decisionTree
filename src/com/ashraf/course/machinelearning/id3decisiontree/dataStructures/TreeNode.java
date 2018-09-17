@@ -11,15 +11,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * TreeNode class is used to create the decision tree. Each TreeNode type object
+ * represents a node in the decision tree. TreeNode can keep track of the
+ * decision tree structure, decision, feature value, and class in the decision
+ * tree.
  *
  * @author Ashraf
+ * @since version 1.0.0
  */
 public class TreeNode {
 
+    // Flag to represent wheather or not it is a leaf node of the tree
     private Boolean leafNode;
+
+    // Child list of current node
     private List<TreeNode> children;
+
+    // Assigned class for this tree node
     private Category category;
+
+    // Breaking attribute for thi node
     private Integer breakingPos;
+
+    // Nitrogen base feature for this node
     private Defs.NitrogenBase nBase;
 
     public TreeNode() {

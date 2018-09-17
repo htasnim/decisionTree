@@ -10,15 +10,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Entry class is a data structure class which is used to store both training
+ * and testing data entries in the project. Entry class stores ID, DNA sequence
+ * and class of each data entry.
  *
- * @author Ashraf
+ * @since version 1.0.0
  */
 public class Entry {
 
+    // ID of a data entry
     private Integer id;
+
+    // DNA sequence of a data entry
     private String sequence;
+
+    // DNA sequence length
     private Integer lengthOfSeq;
+
+    // Data class (i.e doro, acceptor, neutral)
     private Category category;
+
+    // Previously used attribute set
     private Set<Integer> divPositionSet;
 
     public Entry() {
@@ -116,5 +128,4 @@ public class Entry {
     public void setLengthOfSeq(Integer lengthOfSeq) {
         this.lengthOfSeq = lengthOfSeq;
     }
-
 }

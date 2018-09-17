@@ -146,6 +146,7 @@ public class Id3Training {
                     finalEntryListT = new ArrayList<Entry>(currEntryListT);
                 }
             } else if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.GINI_INDEX) {
+                // Information gain using Gini index.
                 Double giniIndex = StatsUtil.calculateGiniIndex(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
                 if (giniIndex >= maxGI) {
                     maxGI = giniIndex;

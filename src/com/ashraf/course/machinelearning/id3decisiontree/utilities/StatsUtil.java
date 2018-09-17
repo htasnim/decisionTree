@@ -18,8 +18,21 @@ import java.util.List;
  */
 public class StatsUtil {
 
+    /**
+     * This function is used to calculate chai square value from a parent data
+     * entry set and four subset of data entry
+     *
+     * @param entryList parent data entry list
+     * @param aEntryList subset of data entry list based on Nitrogen base A
+     * @param cEntryList subset of data entry list based on Nitrogen base C
+     * @param gEntryList subset of data entry list based on Nitrogen base G
+     * @param tEntryList subset of data entry list based on Nitrogen base T
+     * @return calculated chai square value
+     * @since version 1.0.0
+     */
     public static Double calculateChiSquare(List<Entry> entryList, List<Entry> aEntryList, List<Entry> cEntryList, List<Entry> gEntryList, List<Entry> tEntryList) {
 
+        // Calculate the table to calculate chai square
         Integer observed_EI_A = getSubSetOfEntry(aEntryList, Defs.Category.EI).size();
         Integer observed_EI_C = getSubSetOfEntry(cEntryList, Defs.Category.EI).size();
         Integer observed_EI_G = getSubSetOfEntry(gEntryList, Defs.Category.EI).size();
@@ -45,6 +58,7 @@ public class StatsUtil {
         Integer C = getSubSetOfEntry(entryList, Defs.Category.N).size();
         Integer TOTAL = entryList.size();
 
+        // Calculate chai square based on the equation
         Double chaiSq = calculateExpectedProb(observed_EI_A, A, P, TOTAL)
                 + calculateExpectedProb(observed_EI_C, A, Q, TOTAL)
                 + calculateExpectedProb(observed_EI_G, A, R, TOTAL)
@@ -61,6 +75,18 @@ public class StatsUtil {
         return chaiSq;
     }
 
+    /**
+     * This function is used to calculate Gini index information gain value from
+     * a parent data entry set and four subset of data entry
+     *
+     * @param entryList parent data entry list
+     * @param aEntryList subset of data entry list based on Nitrogen base A
+     * @param cEntryList subset of data entry list based on Nitrogen base C
+     * @param gEntryList subset of data entry list based on Nitrogen base G
+     * @param tEntryList subset of data entry list based on Nitrogen base T
+     * @return calculated Gini index value
+     * @since version 1.0.0
+     */
     public static Double calculateGiniIndex(List<Entry> entryList, List<Entry> aEntryList, List<Entry> cEntryList, List<Entry> gEntryList, List<Entry> tEntryList) {
 
         Integer sizeParent = entryList.size();
@@ -158,6 +184,7 @@ public class StatsUtil {
         return entropy;
     }
 
+    // This private method is a subroutine to calculate Gini index information gain value
     private static Double calculateProbOfFeature(List<Entry> entryList, Defs.Category currentCategory) {
         int dataSize = entryList.size();
         Integer eiCount, ieCount, nCount;
@@ -187,6 +214,8 @@ public class StatsUtil {
         }
     }
 
+    // This private method is a subroutine to calculate different statistical analysis. This function
+    // creates a ubset of data entry list based on a given class from a data entry list
     private static List<Entry> getSubSetOfEntry(List<Entry> entryList, Defs.Category category) {
         List<Entry> returnEntryList = new ArrayList<Entry>();
         for (Entry currEntry : entryList) {
@@ -197,6 +226,7 @@ public class StatsUtil {
         return returnEntryList;
     }
 
+    // This private methid is a subroutine to calculate chai square value
     private static Double calculateExpectedProb(Integer observedVal, Integer rowSum, Integer colSum, Integer total) {
         Double expectedVal = (rowSum.doubleValue() * colSum.doubleValue()) / total.doubleValue();
         return Math.pow((observedVal.doubleValue() - expectedVal), 2.0) / expectedVal;

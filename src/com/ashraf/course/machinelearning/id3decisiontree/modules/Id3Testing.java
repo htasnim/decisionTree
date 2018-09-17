@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * Id3Testing classs represents the testing module of this project. This module
+ * Id3Testing class represents the testing module of this project. This module
  * is called each time we need to run test on a given set of data
  *
  * @author Ashraf
@@ -35,7 +35,8 @@ public class Id3Testing {
      * the decision tree and puts each entry in either of EI, IE, N class.
      *
      *
-     * @return root node of the decision tree
+     * @param root node of the decision tree
+     * @return classified List of Entry
      * @since version 1.0.0
      */
     public List<Entry> getTestResults(TreeNode root) {
@@ -76,6 +77,17 @@ public class Id3Testing {
         return returnEntryList;
     }
 
+    /**
+     * getEntryCategory is a private function which is called to classify each
+     * of the test data. This function traverses the decision tree by calling
+     * itself recursively to find the best fit for an Entry.
+     *
+     *
+     * @param entry single data entry
+     * @param ndoe current node of the tree
+     * @return root node of the decision tree
+     * @since version 1.0.0
+     */
     private Entry getEntryCategory(Entry entry, TreeNode node) {
         if (node == null) {
             return entry;
@@ -111,6 +123,7 @@ public class Id3Testing {
                 break;
         }
 
+        // Recursively call for any of the children nodes
         for (TreeNode child : node.getChildren()) {
             if (child != null) {
                 if (child.getnBase() == nBase) {
