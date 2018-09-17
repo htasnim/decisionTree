@@ -56,7 +56,7 @@ public class Id3Training {
             return null;
         }
 
-        logger.info("Total size of training data: " + entryList.size());
+        logger.info("Total size of training data after filtering: " + entryList.size());
         logger.info("Selected evaluation criteria: " + Defs.currSplittingMethod);
 
         logger.info("Start: create Decision Tree...");

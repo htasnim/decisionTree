@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * CsvUtils class contains all the utility methods we need to work on the csv
@@ -26,6 +27,8 @@ import java.util.List;
  * @version 1.0.0, 09 Sept 2018
  */
 public class CsvUtils {
+
+    final static Logger logger = Logger.getLogger(CsvUtils.class);
 
     /**
      * The method getEntryListFromTrainingFile is used to parse all the training
@@ -52,6 +55,7 @@ public class CsvUtils {
             Entry entry = new Entry(Integer.parseInt(lineEntry[0]), lineEntry[1], lineEntry[2]);
             entryList.add(entry);
         }
+        logger.info("Total size of training data before filtering: " + entryList.size());
 
         return filterInvalidEntries(entryList);
     }

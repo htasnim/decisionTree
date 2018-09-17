@@ -36,7 +36,6 @@ public class Entry {
     public Entry() {
 
     }
-
     public Entry(Integer id, String sequence) {
         this.id = id;
         this.sequence = sequence;
