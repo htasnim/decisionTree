@@ -31,9 +31,10 @@ Therefore, a sample execution command is:
     java -jar ID3DecisionTree.jar 1 8.72
 
 However, the command line parameters are optional. Which means, we can run the project using the command:
+
     java -jar ID3DecisionTree.jar
-In this case, the default params are:
-    USE_GINI_INDEX
-    CRITICAL_VAL = 12.59
+        In this case, the default params are:
+        USE_GINI_INDEX
+        CRITICAL_VAL = 12.59
 
 Thank you and good luck!!

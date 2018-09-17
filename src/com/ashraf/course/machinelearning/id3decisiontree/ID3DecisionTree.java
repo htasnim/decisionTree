@@ -37,7 +37,7 @@ public class ID3DecisionTree {
         Integer igParam = Integer.parseInt(args[0]);
         Double criticalValParam = Double.parseDouble(args[1]);
         if (igParam.intValue() == 0) {
-            Defs.currSplittingMethod = Defs.MethodOfSplittingAttribute.INFORMATION_GAIN;
+            Defs.currSplittingMethod = Defs.MethodOfSplittingAttribute.IG_BY_ENTROPY;
         }
 
         Defs.CRITICAL_VALUE = criticalValParam;

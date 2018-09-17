@@ -41,7 +41,7 @@ public class Defs {
 
     // Set of statistical analysis to split the tree
     public static enum MethodOfSplittingAttribute {
-        INFORMATION_GAIN, GINI_INDEX
+        IG_BY_ENTROPY, IG_BY_GINI_INDEX
     }
 
     // Different modes for program cimpilation
@@ -50,7 +50,7 @@ public class Defs {
     }
 
     // Current ststistical analysis mode
-    public static MethodOfSplittingAttribute currSplittingMethod = MethodOfSplittingAttribute.GINI_INDEX;
+    public static MethodOfSplittingAttribute currSplittingMethod = MethodOfSplittingAttribute.IG_BY_GINI_INDEX;
 
     // Current compilation mode
     public static final RunningModes currentRunningMode = RunningModes.RELEASE;

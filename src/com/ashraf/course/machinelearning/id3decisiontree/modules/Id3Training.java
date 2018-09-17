@@ -134,7 +134,7 @@ public class Id3Training {
                 }
             }
 
-            if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.INFORMATION_GAIN) {
+            if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.IG_BY_ENTROPY) {
                 // Get information gain
                 Double informationGain = StatsUtil.calculateInformationGain(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
                 if (informationGain >= maxIG) {
@@ -145,7 +145,7 @@ public class Id3Training {
                     finalEntryListG = new ArrayList<Entry>(currEntryListG);
                     finalEntryListT = new ArrayList<Entry>(currEntryListT);
                 }
-            } else if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.GINI_INDEX) {
+            } else if (Defs.currSplittingMethod == Defs.MethodOfSplittingAttribute.IG_BY_GINI_INDEX) {
                 // Information gain using Gini index.
                 Double giniIndex = StatsUtil.calculateGiniIndex(currEntryList, currEntryListA, currEntryListC, currEntryListG, currEntryListT);
                 if (giniIndex >= maxGI) {
